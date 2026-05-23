@@ -1,0 +1,15 @@
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+
+# macOS
+.DS_Store
+
+# Node (if using Tailwind via npm)
+node_modules/

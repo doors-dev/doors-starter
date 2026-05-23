@@ -1,0 +1,29 @@
+// Package root contains the route handler and page components for the "/" section.
+// It is a "segment" — a self-contained group of related pages under one path model.
+package root
+
+import (
+	"github.com/doors-dev/doors"
+	"github.com/doors-dev/doors-starter/path"
+	"github.com/doors-dev/gox"
+)
+
+// Main is the router for the Root path model.
+// It receives a writable Source[path.Root] from the parent RouteModel,
+// then dispatches to the matching page component based on the Page field.
+//
+// RouteMatch selects a branch by predicate:
+//   - RootLanding renders the Landing component
+//   - RootAbout renders the About component
+//
+// The matched fragment only swaps when the active route changes.
+elem Main(p doors.Source[path.Root]) {
+	~(p.Route(
+		doors.RouteMatch(func(p path.Root) bool {
+			return p.Page == path.RootLanding
+		}).Source(Landing),
+		doors.RouteMatch(func(p path.Root) bool {
+			return p.Page == path.RootAbout
+		}).Source(About),
+	))
+}

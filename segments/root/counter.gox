@@ -1,0 +1,43 @@
+// Package root contains the route handler and page components for the "/" section.
+package root
+
+import (
+	"context"
+	
+	"github.com/doors-dev/doors"
+	"github.com/doors-dev/gox"
+)
+
+// counter is an interactive demo showing Doors reactive state.
+// It holds a Source[int] and wires a click event to Mutate it.
+type counter struct {
+	state doors.Source[int]
+}
+
+elem (c counter) Main() {
+	~// Clicking "Add" increments the reactive state via Mutate.
+	<button
+		(doors.AClick{
+			On: func(ctx context.Context, rp doors.RequestPointer) bool {
+				c.state.Mutate(ctx, func(i int) int {
+					return i + 1
+				})
+				return false
+			},
+		})>
+		Add
+	</button>
+	
+	~// Bind subscribes to state changes and rerenders only this fragment.
+	~(c.state.Bind(c.count))
+}
+
+// count renders the current value.
+// It shows " ← Click!" at zero, then the count after the first click.
+elem (c counter) count(i int) {
+	~(if i == 0 {
+		 ← Click!
+	} else {
+		~(" ", i)
+	})
+}

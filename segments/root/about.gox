@@ -1,0 +1,15 @@
+// Package root contains the route handler and page components for the "/" section.
+package root
+
+import (
+	"github.com/doors-dev/doors"
+	"github.com/doors-dev/doors-starter/path"
+	"github.com/doors-dev/gox"
+)
+
+// About renders the about page (matched on "/about").
+// Receives the writable path source so it could update the URL if needed.
+elem About(p doors.Source[path.Root]) {
+	<title>About</title>
+	<h1>About</h1>
+}

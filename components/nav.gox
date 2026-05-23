@@ -1,0 +1,56 @@
+// Package components holds reusable UI components shared across pages.
+package components
+
+import (
+	"github.com/doors-dev/doors"
+	"github.com/doors-dev/doors-starter/path"
+	"github.com/doors-dev/gox"
+)
+
+// TopNav renders the top navigation bar with links to each page section.
+// Uses doors.ALink for client-side navigation via the Home path model.
+// The third link demonstrates a raw Location link (triggers the 404 fallback).
+elem TopNav() {
+	<ul>
+		<li>
+			~topNavLink{
+				model: path.Root{
+					Page: path.RootLanding,
+				},
+				text: "Home",
+			}
+		</li>
+		<li>
+			~topNavLink{
+				model: path.Root{
+					Page: path.RootAbout,
+				},
+				text: "About",
+			}
+		</li>
+		<li>
+			~>doors.ALink{
+				Model: doors.Location{
+					Segments: []string{"any", "other", "path"},
+				},
+			} <a>404</a>
+		</li>
+	</ul>
+}
+
+// topNavLink is a reusable nav link component.
+// It wraps an anchor with doors.ALink and highlights
+// the link when its model matches the current URL.
+type topNavLink struct {
+	model any
+	text any
+}
+
+elem (l topNavLink) Main() {
+	~>doors.ALink{
+		Active: doors.Active{
+			Indicator: doors.IndicateClass("active"),
+		},
+		Model: l.model,
+	} <a>~(l.text)</a>
+}

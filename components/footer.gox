@@ -1,0 +1,10 @@
+// Package components holds reusable UI components shared across pages.
+package components
+
+import "github.com/doors-dev/gox"
+
+// Footer renders the page footer with a horizontal rule and copyright notice.
+elem Footer() {
+	<hr>
+	No rights reserved
+}

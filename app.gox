@@ -1,0 +1,46 @@
+// App is the root component for every page instance.
+// It defines the HTML shell: doctype, head elements, and body layout.
+// Routing happens inside Main(), not in the page factory.
+package main
+
+import (
+	"github.com/doors-dev/doors-starter/assets"
+	"github.com/doors-dev/doors-starter/components"
+	"github.com/doors-dev/doors-starter/segments/root"
+	
+	"github.com/doors-dev/doors"
+	"github.com/doors-dev/gox"
+)
+
+type App struct{}
+
+elem (a App) Main() {
+	<!doctype html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			~// Favicon served from embedded static files via /static prefix.
+			<link
+				rel="icon"
+				type="image/png"
+				href="/static/ico.png">
+			~// Stylesheet served as a Doors-managed resource with hash-based caching.
+			~// assets.Style is embedded CSS bytes, turned into a resource URL by Doors.
+			<link
+				rel="stylesheet"
+				href=(assets.Style)
+				name="main.css">
+		</head>
+		<body>
+			~(components.TopNav())
+			~// Route the current URL through the Home path model.
+			~// If the URL doesn't match, the NotFound fallback renders with a 404 status.
+			~(doors.Route(
+				doors.RouteModel(root.Main),
+				doors.RouteLocationDefault(components.NotFound),
+			))
+			~(components.Footer())
+		</body>
+	</html>
+}

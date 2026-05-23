@@ -1,0 +1,19 @@
+// Package root contains the route handler and page components for the "/" section.
+package root
+
+import (
+	"github.com/doors-dev/doors"
+	"github.com/doors-dev/doors-starter/path"
+	"github.com/doors-dev/gox"
+)
+
+// Landing renders the home/landing page (matched on "/").
+// Receives the writable path source so it could update the URL if needed.
+elem Landing(p doors.Source[path.Root]) {
+	<title>Landing</title>
+	<h1>Landing</h1>
+	
+	~counter{
+		state: doors.NewSource(0),
+	}
+}
