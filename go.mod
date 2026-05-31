@@ -3,7 +3,7 @@ module github.com/doors-dev/doors-starter
 go 1.25.1
 
 require (
-	github.com/doors-dev/doors v0.12.28
+	github.com/doors-dev/doors v0.12.32
 	github.com/doors-dev/gox v0.1.36
 )
 
