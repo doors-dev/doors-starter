@@ -11,7 +11,7 @@ package path
 // The int field stores the index of the matched variant,
 // which pairs naturally with iota constants.
 type Root struct {
-	Page RootPage `path:"/ | /about"`
+	Page RootPage `/:" | about"`
 }
 
 type RootPage int

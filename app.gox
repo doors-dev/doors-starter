@@ -38,7 +38,7 @@ elem (a App) Main() {
 			~// If the URL doesn't match, the NotFound fallback renders with a 404 status.
 			~(doors.Route(
 				doors.RouteModel(root.Main),
-				doors.RouteLocationDefault(components.NotFound),
+				doors.RouteDefaultBind(components.NotFound),
 			))
 			~(components.Footer())
 		</body>

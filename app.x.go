@@ -74,7 +74,7 @@ func (a App) Main() gox.Elem {
 //line app.gox:39
 				__e = __c.Any(doors.Route(
 				doors.RouteModel(root.Main),
-				doors.RouteLocationDefault(components.NotFound),
+				doors.RouteDefaultBind(components.NotFound),
 			)); if __e != nil { return }
 //line app.gox:43
 				__e = __c.Any(components.Footer()); if __e != nil { return }
