@@ -1,4 +1,4 @@
-// Managed by GoX v0.2.1
+// Managed by GoX v0.3.1
 
 //line app.gox:1
 // App is the root component for every page instance.

@@ -51,7 +51,7 @@ If you want a new page under the existing `Root` path model (e.g. `/contact`):
        RootContact   // new
    )
    ```
-   Update the struct tag: `` `path:"/ | /about | /contact"` ``
+   Update the struct tag: `` `/:" | about | contact"` ``
 
 2. Create a new page component in `segments/root/`:
    ```gox
@@ -82,7 +82,7 @@ To add an entirely new section like `/blog`, `/blog/:id`:
    package path
 
    type Blog struct {
-       Section BlogSection `path:"/blog | /blog/:ID"`
+       Section BlogSection `"/blog":" | :ID"`
        ID      string
    }
 
@@ -136,7 +136,7 @@ To add an entirely new section like `/blog`, `/blog/:id`:
        ~(doors.Route(
            doors.RouteModel(root.Main),
            doors.RouteModel(blog.Main),    // new — tried in order
-           doors.RouteLocationDefault(components.NotFound),
+           doors.RouteDefaultBind(components.NotFound),
        ))
    </>
    ```

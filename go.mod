@@ -3,8 +3,8 @@ module github.com/doors-dev/doors-starter
 go 1.25.1
 
 require (
-	github.com/doors-dev/doors v0.14.0
-	github.com/doors-dev/gox v0.2.1
+	github.com/doors-dev/doors v0.15.0
+	github.com/doors-dev/gox v0.3.1
 )
 
 require (

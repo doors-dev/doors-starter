@@ -1,4 +1,4 @@
-// Managed by GoX v0.2.1
+// Managed by GoX v0.3.1
 
 //line not_found.gox:1
 // Package components holds reusable UI components shared across pages.
