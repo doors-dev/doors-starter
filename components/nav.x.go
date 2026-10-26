@@ -49,6 +49,7 @@ func TopNav() gox.Elem {
 				__e = __c.Submit(); if __e != nil { return }
 //line nav.gox:32
 				__e = (doors.ALink{
+				Batch: true,
 				Model: doors.Location{
 					Segments: []string{"any", "other", "path"},
 				},
@@ -66,23 +67,26 @@ func TopNav() gox.Elem {
 		}
 		__e = __c.Close(); if __e != nil { return }
 	return })
-//line nav.gox:39
+//line nav.gox:40
 }
 
 // topNavLink is a reusable nav link component.
 // It wraps an anchor with doors.ALink and highlights
 // the link when its model matches the current URL.
+// Batch applies the navigation's page updates in one step, so the
+// current page stays intact until the new one is ready.
 type topNavLink struct {
 	model any
 	text any
 }
 
-//line nav.gox:49
+//line nav.gox:52
 func (l topNavLink) Main() gox.Elem {
 	return gox.Elem(func(__c gox.Cursor) (__e error) {
 		ctx := __c.Context(); _ = ctx
-//line nav.gox:50
+//line nav.gox:53
 		__e = (doors.ALink{
+		Batch: true,
 		Active: doors.Active{
 			Indicator: doors.IndicateClass("active"),
 		},
@@ -92,11 +96,11 @@ func (l topNavLink) Main() gox.Elem {
 			__e = __c.Init("a"); if __e != nil { return }
 			{
 				__e = __c.Submit(); if __e != nil { return }
-//line nav.gox:55
+//line nav.gox:59
 				__e = __c.Any(l.text); if __e != nil { return }
 			}
 			__e = __c.Close(); if __e != nil { return }
 		return })); if __e != nil { return }
 	return })
-//line nav.gox:56
+//line nav.gox:60
 }

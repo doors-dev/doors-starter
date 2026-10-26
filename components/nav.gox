@@ -30,6 +30,7 @@ elem TopNav() {
 		</li>
 		<li>
 			~>doors.ALink{
+				Batch: true,
 				Model: doors.Location{
 					Segments: []string{"any", "other", "path"},
 				},
@@ -41,6 +42,8 @@ elem TopNav() {
 // topNavLink is a reusable nav link component.
 // It wraps an anchor with doors.ALink and highlights
 // the link when its model matches the current URL.
+// Batch applies the navigation's page updates in one step, so the
+// current page stays intact until the new one is ready.
 type topNavLink struct {
 	model any
 	text any
@@ -48,6 +51,7 @@ type topNavLink struct {
 
 elem (l topNavLink) Main() {
 	~>doors.ALink{
+		Batch: true,
 		Active: doors.Active{
 			Indicator: doors.IndicateClass("active"),
 		},
