@@ -1,4 +1,4 @@
-// Package root contains the route handler and page components for the "/" section.
+// Package root contains the routes and page components for the "/" section.
 package root
 
 import (

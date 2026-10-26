@@ -1,9 +1,9 @@
-// Managed by GoX v0.3.1
+// Managed by GoX v0.3.3
 
 //line app.gox:1
 // App is the root component for every page instance.
 // It defines the HTML shell: doctype, head elements, and body layout.
-// Routing happens inside Main(), not in the page factory.
+// Routing happens inside Main() with doors.Route, not in the page factory.
 package main
 
 import (
@@ -71,17 +71,17 @@ func (a App) Main() gox.Elem {
 				__e = __c.Submit(); if __e != nil { return }
 //line app.gox:36
 				__e = __c.Any(components.TopNav()); if __e != nil { return }
-//line app.gox:39
+//line app.gox:41
 				__e = __c.Any(doors.Route(
-				doors.RouteModel(root.Main),
-				doors.RouteDefaultBind(components.NotFound),
+				root.Routes(),
+				doors.RouteBind(components.NotFound),
 			)); if __e != nil { return }
-//line app.gox:43
+//line app.gox:45
 				__e = __c.Any(components.Footer()); if __e != nil { return }
 			}
 			__e = __c.Close(); if __e != nil { return }
 		}
 		__e = __c.Close(); if __e != nil { return }
 	return })
-//line app.gox:46
+//line app.gox:48
 }

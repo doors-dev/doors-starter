@@ -7,10 +7,11 @@ import (
 )
 
 // NotFound renders the 404 fallback page.
-// It receives the raw location and:
+// The app uses it as a doors.RouteBind leaf, so it receives the current
+// doors.Location value and re-renders whenever the unmatched URL changes. It:
 //   - Sets the HTTP response status to 404 (initial render only)
 //   - Sets the page title to "Not Found"
-//   - Displays the unmatched path reactively via app-level Bind
+//   - Displays the unmatched path
 //
 // Note: title and status tags can be rendered anywhere in the tree;
 // Doors moves <title> into <head> and applies Status to the response.

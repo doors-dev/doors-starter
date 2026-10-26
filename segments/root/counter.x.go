@@ -1,7 +1,7 @@
-// Managed by GoX v0.3.1
+// Managed by GoX v0.3.3
 
 //line counter.gox:1
-// Package root contains the route handler and page components for the "/" section.
+// Package root contains the routes and page components for the "/" section.
 package root
 
 import (

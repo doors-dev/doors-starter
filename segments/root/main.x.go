@@ -1,38 +1,43 @@
-// Managed by GoX v0.3.1
+// Managed by GoX v0.3.3
 
 //line main.gox:1
-// Package root contains the route handler and page components for the "/" section.
+// Package root contains the routes and page components for the "/" section.
 // It is a "segment" — a self-contained group of related pages under one path model.
 package root
 
 import (
 	"github.com/doors-dev/doors"
 	"github.com/doors-dev/doors-starter/path"
-	"github.com/doors-dev/gox"
 )
 
-// Main is the router for the Root path model.
-// It receives a writable Source[path.Root] from the parent RouteModel,
-// then dispatches to the matching page component based on the Page field.
+// Routes returns the route group for the Root path model.
+// The app passes it to its top-level doors.Route call, so the segment's
+// pages render in the same container as the rest of the app's routes.
 //
-// RouteMatch selects a branch by predicate:
+// RouteModel[path.Root] matches when the URL decodes into path.Root,
+// and the routes inside it work on the decoded model:
 //   - RootLanding renders the Landing component
 //   - RootAbout renders the About component
 //
-// The matched fragment only swaps when the active route changes.
-//line main.gox:20
-func Main(p doors.Source[path.Root]) gox.Elem {
-	return gox.Elem(func(__c gox.Cursor) (__e error) {
-		ctx := __c.Context(); _ = ctx
-//line main.gox:21
-		__e = __c.Any(p.Route(
-		doors.RouteMatch(func(p path.Root) bool {
-			return p.Page == path.RootLanding
-		}).Source(Landing),
-		doors.RouteMatch(func(p path.Root) bool {
-			return p.Page == path.RootAbout
-		}).Source(About),
-	)); if __e != nil { return }
-	return })
-//line main.gox:29
+// RouteSource hands each page a writable doors.Source[path.Root];
+// updating it encodes the new model back into the URL.
+//
+// A page renders once when its branch is entered and is replaced only when
+// a different branch should show. If the URL decodes into path.Root but no
+// route inside matches, the group falls through to the app's next route.
+func Routes() doors.SourceRoute[doors.Location] {
+	return doors.RouteModel[path.Root](
+		doors.RouteMatch(
+			func(p path.Root) bool {
+				return p.Page == path.RootLanding
+			},
+			doors.RouteSource(Landing),
+		),
+		doors.RouteMatch(
+			func(p path.Root) bool {
+				return p.Page == path.RootAbout
+			},
+			doors.RouteSource(About),
+		),
+	)
 }

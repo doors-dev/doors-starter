@@ -7,7 +7,7 @@ A starter project for [Doors](https://github.com/doors-dev/doors) — a reactive
 ```
 .
 ├── main.go                       # Entry point: creates the Doors app, attaches middleware, starts HTTP server
-├── app.gox                       # Root component: HTML shell with head elements, nav, router, and footer
+├── app.gox                       # Root component: HTML shell with head elements, nav, top-level doors.Route, and footer
 ├── go.mod / go.sum               # Go module definition and dependency checksums
 │
 ├── path/                         # URL path models — Go structs describing URL shapes
@@ -16,11 +16,11 @@ A starter project for [Doors](https://github.com/doors-dev/doors) — a reactive
 ├── components/                   # Reusable UI components shared across pages
 │   ├── nav.gox                   #   Top navigation bar with doors.ALink navigation links
 │   ├── footer.gox                #   Page footer
-│   └── not_found.gox             #   404 fallback page with reactive path display
+│   └── not_found.gox             #   404 fallback page (a RouteBind leaf showing the unmatched path)
 │
 ├── segments/                     # Self-contained page groups (one per path model)
 │   └── root/                     #   Segment for the "/" section
-│       ├── main.gox              #     Routes the Root path model to Landing or About
+│       ├── main.gox              #     Routes(): the segment's route group (Root path model -> Landing or About)
 │       ├── landing.gox           #     Landing page ("/") — includes the counter demo
 │       ├── about.gox             #     About page ("/about")
 │       └── counter.gox           #     Interactive counter (Source + Bind demo)
@@ -61,12 +61,16 @@ If you want a new page under the existing `Root` path model (e.g. `/contact`):
    }
    ```
 
-3. Add a new route match in `segments/root/main.gox`:
+3. Add a new route to the `RouteModel[path.Root]` group in `segments/root/main.gox`:
    ```gox
-   doors.RouteMatch(func(p path.Root) bool {
-       return p.Page == path.RootContact
-   }).Source(Contact),
+   doors.RouteMatch(
+       func(p path.Root) bool {
+           return p.Page == path.RootContact
+       },
+       doors.RouteSource(Contact),
+   ),
    ```
+   `RouteMatch` takes a predicate and the routes to use when it holds; here a single `RouteSource` leaf, which hands `Contact` the writable `doors.Source[path.Root]`.
 
 4. Link to it in `components/nav.gox`:
    ```gox
@@ -82,7 +86,7 @@ To add an entirely new section like `/blog`, `/blog/:id`:
    package path
 
    type Blog struct {
-       Section BlogSection `"/blog":" | :ID"`
+       Section BlogSection `/blog:" | :ID"`
        ID      string
    }
 
@@ -94,7 +98,7 @@ To add an entirely new section like `/blog`, `/blog/:id`:
    )
    ```
 
-2. Create `segments/blog/main.gox`:
+2. Create `segments/blog/main.gox` with the segment's route group:
    ```gox
    package blog
 
@@ -103,19 +107,32 @@ To add an entirely new section like `/blog`, `/blog/:id`:
        "github.com/doors-dev/doors-starter/path"
    )
 
-   elem Main(p doors.Source[path.Blog]) {
-       ~(p.Route(
-           doors.RouteMatch(func(p path.Blog) bool {
-               return p.Section == path.BlogIndex
-           }).Source(Index),
-           doors.RouteDerive(func(p path.Blog) (string, bool) {
-               return p.ID, p.Section == path.BlogPost
-           }).Beam(Post),
-       ))
+   func Routes() doors.SourceRoute[doors.Location] {
+       return doors.RouteModel[path.Blog](
+           doors.RouteMatch(
+               func(p path.Blog) bool {
+                   return p.Section == path.BlogIndex
+               },
+               doors.RouteSource(Index),
+           ),
+           doors.RouteMatch(
+               func(p path.Blog) bool {
+                   return p.Section == path.BlogPost
+               },
+               doors.RouteBeamDerive(
+                   func(b doors.Beam[path.Blog]) doors.Beam[string] {
+                       return doors.DeriveBeam(b, func(p path.Blog) string {
+                           return p.ID
+                       })
+                   },
+                   doors.RouteBeam(Post),
+               ),
+           ),
+       )
    }
    ```
 
-    `RouteDerive` matches when `Section == BlogPost` and derives the ID into a `Beam[string]`. The `Post` component receives just the ID instead of the full Blog source, keeping updates narrower.
+   The second `RouteMatch` applies when `Section == BlogPost`, and `RouteBeamDerive` narrows the model to the ID as a read-only `Beam[string]`. The `Post` component receives just the ID instead of the full Blog source, keeping updates narrower: going from one post to another keeps `Post` mounted and only its `Bind` re-renders.
 
 3. Create the page components:
    ```gox
@@ -130,16 +147,17 @@ To add an entirely new section like `/blog`, `/blog/:id`:
    }
    ```
 
-4. Add the model to the router in `app.gox`:
+4. Add the segment's routes to the router in `app.gox`:
    ```gox
    <>
        ~(doors.Route(
-           doors.RouteModel(root.Main),
-           doors.RouteModel(blog.Main),    // new — tried in order
-           doors.RouteDefaultBind(components.NotFound),
+           root.Routes(),
+           blog.Routes(),    // new — tried in order
+           doors.RouteBind(components.NotFound),
        ))
    </>
    ```
+   All routes nest in this one `doors.Route` call and render in one container. A URL that decodes into a model but matches no route inside its `RouteModel` falls through to the next route, so `NotFound` (a leaf, which always matches) stays last.
 
 ### Add a New Static Asset
 

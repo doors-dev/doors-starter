@@ -1,4 +1,4 @@
-// Managed by GoX v0.3.1
+// Managed by GoX v0.3.3
 
 //line footer.gox:1
 // Package components holds reusable UI components shared across pages.

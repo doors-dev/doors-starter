@@ -1,6 +1,6 @@
 // App is the root component for every page instance.
 // It defines the HTML shell: doctype, head elements, and body layout.
-// Routing happens inside Main(), not in the page factory.
+// Routing happens inside Main() with doors.Route, not in the page factory.
 package main
 
 import (
@@ -34,11 +34,13 @@ elem (a App) Main() {
 		</head>
 		<body>
 			~(components.TopNav())
-			~// Route the current URL through the Home path model.
-			~// If the URL doesn't match, the NotFound fallback renders with a 404 status.
+			~// Route the current URL. Routes are tried in order, and the whole
+			~// tree renders in one container: each segment contributes its route
+			~// group, and the NotFound leaf goes last as the fallback for URLs
+			~// that no segment matches (a leaf always matches).
 			~(doors.Route(
-				doors.RouteModel(root.Main),
-				doors.RouteDefaultBind(components.NotFound),
+				root.Routes(),
+				doors.RouteBind(components.NotFound),
 			))
 			~(components.Footer())
 		</body>

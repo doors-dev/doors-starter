@@ -8,7 +8,7 @@ import (
 )
 
 // TopNav renders the top navigation bar with links to each page section.
-// Uses doors.ALink for client-side navigation via the Home path model.
+// Uses doors.ALink for in-app navigation via the Root path model.
 // The third link demonstrates a raw Location link (triggers the 404 fallback).
 elem TopNav() {
 	<ul>

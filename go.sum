@@ -1,7 +1,7 @@
-github.com/doors-dev/doors v0.15.0 h1:tID5Kqjv93IVqiv78FIhqQfaOIXvN870yzia/AouIDo=
-github.com/doors-dev/doors v0.15.0/go.mod h1:/zOMLkksDWHSFX3PRKRxv9XIOevpwQtDE8TDYMxKqUE=
-github.com/doors-dev/gox v0.3.1 h1:TMC8JrqwIk/mO6sOowexhdrCpgYmw2WMNBeiYOoYc8c=
-github.com/doors-dev/gox v0.3.1/go.mod h1:b1Tcjs60Qvz6n6knxO35jvyMNBbCarj10mMNQzJl3Qk=
+github.com/doors-dev/doors v0.18.0 h1:/+QE9xZCAHrkFwP5R2a1bhH6EwQedqPB5q14FaMCKGM=
+github.com/doors-dev/doors v0.18.0/go.mod h1:w68TRvGuvumPjjB3N2oSDD6OrunjZCfe+ZDS6Y3udjo=
+github.com/doors-dev/gox v0.3.3 h1:ScqxVjC9hTbfzjlh/+UEOkWoe+SsIs0ztWOJ8KXAgSo=
+github.com/doors-dev/gox v0.3.3/go.mod h1:b1Tcjs60Qvz6n6knxO35jvyMNBbCarj10mMNQzJl3Qk=
 github.com/evanw/esbuild v0.28.0 h1:V96ghtc5p5JnNUQIUsc5H3kr+AcFcMqOJll2ZmJW6Lo=
 github.com/evanw/esbuild v0.28.0/go.mod h1:D2vIQZqV/vIf/VRHtViaUtViZmG7o+kKmlBfVQuRi48=
 github.com/gammazero/deque v1.2.1 h1:9fnQVFCCZ9/NOc7ccTNqzoKd1tCWOqeI05/lPqFPMGQ=

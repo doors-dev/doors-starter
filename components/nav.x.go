@@ -1,4 +1,4 @@
-// Managed by GoX v0.3.1
+// Managed by GoX v0.3.3
 
 //line nav.gox:1
 // Package components holds reusable UI components shared across pages.
@@ -11,7 +11,7 @@ import (
 )
 
 // TopNav renders the top navigation bar with links to each page section.
-// Uses doors.ALink for client-side navigation via the Home path model.
+// Uses doors.ALink for in-app navigation via the Root path model.
 // The third link demonstrates a raw Location link (triggers the 404 fallback).
 //line nav.gox:13
 func TopNav() gox.Elem {
